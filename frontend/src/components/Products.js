@@ -2,12 +2,12 @@ import React, {useState, useEffect, useReducer, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { SpinnerDotted } from 'spinners-react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button,Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button,Modal,Badge,Form } from 'react-bootstrap';
 import Rating from './Rating';
 import { Helmet } from 'react-helmet-async';
 import {Store} from '../Store'
 import { HiShoppingCart } from "react-icons/hi";
-import { FaVimeo, FaTrashAlt } from "react-icons/fa";
+import { FaVimeo, FaTrashAlt, FaHeart } from "react-icons/fa";
 
 
 function reducer(state, action) {
@@ -32,11 +32,14 @@ function reducer(state, action) {
       default:
         return state
     }
-  }
+}
 
 
 const Products = () => {
     const [lgShow, setLgShow] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [searchMatch, setSearchMatch] = useState("");
+
     const [{loading, product, error}, dispatch] = useReducer(reducer,{
         loading:false,
         product:[],
@@ -70,9 +73,9 @@ const Products = () => {
         setDetails(productDetails.data)
     }
 
-    const {state, dispatch: contextDispatch} = useContext(Store)
+    const {state, dispatch: contextDispatch, state2, dispatch2} = useContext(Store)
 
-    const {cart} = state
+    const {cart, wishList} = state
 
     const handleAddToCart = async (product)=>{
         const exitingItem = cart.cartItems.find((item)=> item._id === product._id)
@@ -89,6 +92,17 @@ const Products = () => {
             payload: {...product, quantity: 1}
         })
     }
+
+    // WishList part start
+    const handleAddToWishList = async (product)=>{
+        
+        dispatch2({
+            type:'WISHLIST_ADD_ITEM',
+            payload: {...product}
+        })
+    }
+
+    // Wishlist part End
 
     const {cart:{cartItems}} = state
     
@@ -107,12 +121,18 @@ const Products = () => {
         })
     }
 
+    const handleSearch = (e)=>{
+        setSearchKeyword(e.target.value)
+    }
+
+
     return (
         <>
             <Container>
             <Helmet>
                 <title>Product Page</title>
             </Helmet>
+            <Form.Control onChange={handleSearch} type="type" placeholder="Search..." />
                 <Row>
                     { loading?
                     <div className='loading'>
@@ -125,13 +145,13 @@ const Products = () => {
                                 <Card.Img variant="top" src={item.img} />
                                 <Card.Body>
                                     <Card.Title>
-                                        <Link to={`/products/${item.slug}`}>{item.name}</Link>
+                                        <Link to={`/products/${item.slug}`}>{item.name} {item.totalSale > 50 ?<Badge bg="warning">Best Sale</Badge>:""}</Link>
                                     </Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
                                     <Card.Text>
                                         <h5>$ {item.price}</h5>
                                     </Card.Text>
                                     <Rating rating={item.rating} ratingNumber={item.ratingNumber}/>
+                                    <Card.Text>{item.description}</Card.Text>
                                 </Card.Body>
                                 <Card.Body>
                                     {cartItems.map(items=>(
@@ -148,11 +168,16 @@ const Products = () => {
                                     <br/>
                                         {item.inStock == 0 
                                             ?
-                                            <Button variant="danger">Out of Stock</Button>
+                                            <div>
+                                                <Button variant="danger">Out of Stock</Button>
+                                                <FaVimeo className='mt-3 viewDetails' onClick={()=>{handleDetails(item.slug)}}>Details</FaVimeo>
+                                                <FaHeart className='mt-3 wishIcon' onClick={()=>handleAddToWishList(item)}></FaHeart>
+                                            </div>
                                             :
                                             <div>
                                                 <HiShoppingCart className='mt-3 ms-3 me-3 shopingCart' onClick={()=>handleAddToCart(item)}/>
                                                 <FaVimeo className='mt-3 viewDetails' onClick={()=>{handleDetails(item.slug)}}>Details</FaVimeo>
+                                                <FaHeart className='mt-3 wishIconDetails' onClick={()=>handleAddToWishList(item)}>Wishlist</FaHeart>
                                             </div>
                                         }
                                 </Card.Body>
@@ -160,6 +185,7 @@ const Products = () => {
                         </Col>
                     ))}
                 </Row>
+                
                 {/* Modals */}
                 <Modal
                     className='modalBody'
@@ -177,16 +203,24 @@ const Products = () => {
                         {details?
                         <Card>
                             <Card.Body>
-                                <Card.Img  variant="top" src={details.img} />
-                                <Card.Title>
-                                    {details.name}
-                                </Card.Title>
-                                <Card.Text>{details.description}</Card.Text>
-                                <Card.Text>
-                                    <h5>$ {details.price}</h5>
-                                </Card.Text>
-                                <Rating rating={details.rating} ratingNumber={details.ratingNumber}/>
-                                <Button variant="primary">Add To Cart</Button>
+                                
+                                {details.inStock == 0
+                                ?
+                                <Button variant="danger">Out of Stock</Button>
+                                :
+                                <>
+                                    <Card.Img src={details.img} />
+                                    <Card.Title>
+                                        {details.name}
+                                    </Card.Title>
+                                    <Card.Text>
+                                        <h5>$ {details.price}</h5>
+                                    </Card.Text>
+                                    <Rating rating={details.rating} ratingNumber={details.ratingNumber}/>
+                                    <Card.Text>{details.description}</Card.Text>
+                                    <Button onClick={()=>handleAddToCart(details)} variant="primary">Add To Cart</Button>
+                                </>
+                                }
                             </Card.Body>
                         </Card>
                         :

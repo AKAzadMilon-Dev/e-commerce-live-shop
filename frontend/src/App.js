@@ -8,6 +8,8 @@ import { Store } from './Store';
 import CartPage from './components/CartPage';
 import Signin from './components/auth/Signin';
 import { FaFirstOrder } from "react-icons/fa";
+import Wishlist from './components/Wishlist';
+import Compare from './components/Compare';
 
 function App() {
 
@@ -16,8 +18,9 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {state, dispatch} = useContext(Store)
+  const {state, dispatch,state2,dispatch2} = useContext(Store)
   const {cart:{cartItems}} = state
+  const {wishList:{wishListItems}} = state2
     
   const updateCart = (item, quantity)=>{
       console.log(quantity)
@@ -34,6 +37,13 @@ function App() {
       })
   }
 
+  const handleWishlistRemove = (item)=>{
+      dispatch2({
+          type: 'WISHLIST_REMOVE_ITEM',
+          payload: item
+      })
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -45,8 +55,9 @@ function App() {
               <Nav className="ms-auto menu">
                 <Link className='item' to="/">Home</Link>
                 <Link className='item' to="/products">Products</Link>
+                <Link className='item' to="/compare">Compare Products</Link>
+                
                 <NavDropdown title="Cart" >
-                  
                 <Table className='cartTd' striped bordered hover variant="primary">
                   {cartItems.map((item)=>(
                       <tbody >
@@ -74,11 +85,44 @@ function App() {
                   </Link>
 
                 </NavDropdown>
-                  {state.cart.cartItems.length > 0 && 
+                  {state.cart.cartItems.length > 0 && (
                     <Badge pill bg="success">
                       {state.cart.cartItems.length}
                     </Badge>
-                  }
+                  )}
+
+                  {/* wishlist start */}
+                  <NavDropdown title="Wishlist" >
+                <Table className='cartTd' striped bordered hover variant="primary">
+                  {wishListItems.map((item)=>(
+                      <tbody >
+                          <tr>
+                              <td><Link to={`/products/${item.slug}`}>{item.name}</Link></td>
+                              <td>
+                                  <img width="50" src={item.img}></img>
+                              </td>
+                              <td>$ {item.price}</td>
+                              <td><Button onClick={()=>handleWishlistRemove(item)} variant="danger">Delete</Button></td>
+                          </tr>
+                      </tbody>
+                  ))}
+              </Table>
+
+                  <Link to="/wishlist">
+                    <div>
+                      <Button className='w-100' >Go to wishlist</Button>
+                    </div>
+                  </Link>
+
+                </NavDropdown>
+                  {state2.wishList.wishListItems.length > 0 && (
+                    <Badge pill bg="success">
+                      {state2.wishList.wishListItems.length}
+                    </Badge>
+                  )}
+                  {/* wishlist end */}
+
+
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -126,6 +170,8 @@ function App() {
           <Route path="/products/:slug" element={<ProductDetails/>}/>
           <Route path="/cartpage" element={<CartPage/>}/>
           <Route path="/signin" element={<Signin/>}/>
+          <Route path="/wishlist" element={<Wishlist/>}/>
+          <Route path="/compare" element={<Compare/>}/>
         </Routes>
       </BrowserRouter>
     </>

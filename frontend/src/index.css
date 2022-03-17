@@ -1,3 +1,9 @@
+/* Slick Slider CSS Start */
+.slick-list,.slick-slider,.slick-track{position:relative;display:block}.slick-loading .slick-slide,.slick-loading .slick-track{visibility:hidden}.slick-slider{box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;-khtml-user-select:none;-ms-touch-action:pan-y;touch-action:pan-y;-webkit-tap-highlight-color:transparent}.slick-list{overflow:hidden;margin:0;padding:0}.slick-list:focus{outline:0}.slick-list.dragging{cursor:pointer;cursor:hand}.slick-slider .slick-list,.slick-slider .slick-track{-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.slick-track{top:0;left:0}.slick-track:after,.slick-track:before{display:table;content:''}.slick-track:after{clear:both}.slick-slide{display:none;float:left;height:100%;min-height:1px}[dir=rtl] .slick-slide{float:right}.slick-slide img{display:block}.slick-slide.slick-loading img{display:none}.slick-slide.dragging img{pointer-events:none}.slick-initialized .slick-slide{display:block}.slick-vertical .slick-slide{display:block;height:auto;border:1px solid transparent}.slick-arrow.slick-hidden{display:none}/*# sourceMappingURL=slick.min.css.map */
+/* Slick Slider CSS End */
+
+
+
 a{
   text-decoration: none;
 }
@@ -67,6 +73,11 @@ a{
   text-align: center;
 }
 
+/* .imgZoom{
+  width: 400px;
+  height: 100%;
+} */
+
 .cartStyle{
   border: none;
 
@@ -101,23 +112,40 @@ a{
 
 .shopingCart{
   color: #ffbb00;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 2px solid #e2dfdf;
 }
 
 .viewDetails{
-  background: #ffbb00;
-  width: 40px;
-  height: 40px;
+  color: #ffbb00;
+  width: 30px;
+  height: 30px;
   border: 2px solid #e2dfdf;
-  margin-left: 140px;
+  margin-left: 50px;
+}
+
+.wishIcon{
+  /* background: #ffbb00; */
+  color: #f71010;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e2dfdf;
+  margin-left: 40px;
+}
+
+.wishIconDetails{
+  color: #ff0808;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e2dfdf;
+  margin-left: 60px;
 }
 
 .removeIcon{
-  background: #ffbb00;
-  width: 40px;
-  height: 40px;
+  color: #e01c1c;
+  width: 30px;
+  height: 30px;
   border: 2px solid #e2dfdf;
   margin-left: 125px;
 }
@@ -129,3 +157,58 @@ a{
   margin-left: 500px;
   /* background: #ffbb01; */
 }
+
+.cartCompare{
+  width: 80%;
+  height: 80%;
+}
+
+.slick-prev{
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  background: #fcba05;
+  padding: 10px;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: -50px;
+  transform: translateY(-50%);
+}
+.slick-next{
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  background: #fcba05;
+  padding: 10px;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  transform: translateY(-50%);
+}
+
+.discountimg{
+  width: 470px;
+  height: 250px;
+  
+}
+
+.banner{
+  position: relative;
+}
+
+.banner-img{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.listCategory{
+  width: 300px;
+}
+
+.categoryShow{
+  margin-top: 100px;
+}
+

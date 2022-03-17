@@ -1,5 +1,6 @@
 import express from 'express';
 import data from './Data.js';
+import discount from './discount.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 
@@ -22,6 +23,10 @@ app.get('/products', function (req, res) {
     res.send(data)
 })
 
+app.get('/discount', function (req, res) {
+    res.send(discount)
+})
+
 app.get('/products/:slug', function (req, res) {
     
     let product = data.find((item)=>{
@@ -30,6 +35,17 @@ app.get('/products/:slug', function (req, res) {
         }
     })
     res.send(product)
+})
+
+app.get('/category/:cat', function (req, res) {
+    
+    let categoryArr = []
+     data.find((item)=>{
+        if(req.params.cat == item.category){
+            categoryArr.push(item)
+        }
+    })
+    res.send(categoryArr)
 })
 
 app.get('/cartProduct/:id', function (req, res) {

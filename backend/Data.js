@@ -5,10 +5,15 @@ const data = [
         slug:"car-1",
         img: "/images/1.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "5040",
+        price: "140",
         rating:"5",
         ratingNumber:"120",
-        inStock:"25"
+        inStock:"25",
+        category:"one",
+        cupon:"red",
+        discount:75,
+        discountLimit:"50",
+        totalSale:35
     },
     {
         _id:"2",
@@ -16,10 +21,14 @@ const data = [
         slug:"car-2",
         img: "/images/2.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "6045",
+        price: "145",
         rating:"4",
         ratingNumber:"100",
-        inStock:"20"
+        inStock:"20",
+        category:"one",
+        cupon:"blue",
+        discount:25,
+        totalSale:50
     },
     {
         _id:"3",
@@ -27,10 +36,14 @@ const data = [
         slug:"car-3",
         img: "/images/3.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "7050",
+        price: "150",
         rating:"4.5",
         ratingNumber:"130",
-        inStock:"0"
+        inStock:"0",
+        category:"two",
+        cupon:"",
+        discount:"",
+        totalSale:70
     },
     {
         _id:"4",
@@ -38,10 +51,12 @@ const data = [
         slug:"car-4",
         img: "/images/4.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "5560",
+        price: "160",
         rating:"3",
         ratingNumber:"110",
-        inStock:"50"
+        inStock:"50",
+        category:"two",
+        totalSale:110
     },
     {
         _id:"5",
@@ -49,10 +64,12 @@ const data = [
         slug:"car-5",
         img: "/images/5.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "6655",
+        price: "155",
         rating:"3.5",
         ratingNumber:"90",
-        inStock:"30"
+        inStock:"30",
+        category:"three",
+        totalSale:100
     },
     {
         _id:"6",
@@ -60,10 +77,12 @@ const data = [
         slug:"car-6",
         img: "/images/6.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "5645",
+        price: "145",
         rating:"2.5",
         ratingNumber:"80",
-        inStock:"0"
+        inStock:"0",
+        category:"three",
+        totalSale:35
     },
     {
         _id:"7",
@@ -71,10 +90,12 @@ const data = [
         slug:"car-7",
         img: "/images/7.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "4445",
+        price: "145",
         rating:"5",
         ratingNumber:"100",
-        inStock:"40"
+        inStock:"40",
+        category:"four",
+        totalSale:76
     },
     {
         _id:"8",
@@ -82,11 +103,176 @@ const data = [
         slug:"car-8",
         img: "/images/8.jpg",
         description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
-        price: "7745",
+        price: "145",
         rating:"2",
         ratingNumber:"20",
-        inStock:"20"
+        inStock:"20",
+        category:"four",
+        totalSale:55
     },
+    {
+        _id:"9",
+        name:"car-9",
+        slug:"car-9",
+        img: "/images/6.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2",
+        ratingNumber:"20",
+        inStock:"20",
+        category:"five",
+        totalSale:99
+    },
+    {
+        _id:"10",
+        name:"car-10",
+        slug:"car-10",
+        img: "/images/2.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2",
+        ratingNumber:"20",
+        inStock:"20",
+        category:"five",
+        totalSale:99
+    },
+    {
+        _id:"11",
+        name:"car-11",
+        slug:"car-11",
+        img: "/images/1.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "140",
+        rating:"5",
+        ratingNumber:"120",
+        inStock:"25",
+        category:"six",
+        cupon:"red",
+        discount:75,
+        discountLimit:"50",
+        totalSale:35
+    },
+    {
+        _id:"12",
+        name:"car-12",
+        slug:"car-12",
+        img: "/images/2.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"4",
+        ratingNumber:"100",
+        inStock:"20",
+        category:"six",
+        cupon:"blue",
+        discount:25,
+        totalSale:50
+    },
+    {
+        _id:"13",
+        name:"car-13",
+        slug:"car-13",
+        img: "/images/3.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "150",
+        rating:"4.5",
+        ratingNumber:"130",
+        inStock:"0",
+        category:"seven",
+        cupon:"",
+        discount:"",
+        totalSale:70
+    },
+    {
+        _id:"14",
+        name:"car-14",
+        slug:"car-14",
+        img: "/images/4.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "160",
+        rating:"3",
+        ratingNumber:"110",
+        inStock:"50",
+        category:"seven",
+        totalSale:110
+    },
+    {
+        _id:"15",
+        name:"car-15",
+        slug:"car-15",
+        img: "/images/5.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "155",
+        rating:"3.5",
+        ratingNumber:"90",
+        inStock:"30",
+        category:"eight",
+        totalSale:100
+    },
+    {
+        _id:"16",
+        name:"car-16",
+        slug:"car-16",
+        img: "/images/6.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2.5",
+        ratingNumber:"80",
+        inStock:"0",
+        category:"eight",
+        totalSale:35
+    },
+    {
+        _id:"17",
+        name:"car-17",
+        slug:"car-17",
+        img: "/images/7.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"5",
+        ratingNumber:"100",
+        inStock:"40",
+        category:"nine",
+        totalSale:76
+    },
+    {
+        _id:"18",
+        name:"car-18",
+        slug:"car-18",
+        img: "/images/8.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2",
+        ratingNumber:"20",
+        inStock:"20",
+        category:"nine",
+        totalSale:55
+    },
+    {
+        _id:"19",
+        name:"car-19",
+        slug:"car-19",
+        img: "/images/6.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2",
+        ratingNumber:"20",
+        inStock:"20",
+        category:"ten",
+        totalSale:99
+    },
+    {
+        _id:"20",
+        name:"car-20",
+        slug:"car-20",
+        img: "/images/2.jpg",
+        description:"Fashion Clothing Site with greatest number of Latest casual style Dresses.",
+        price: "145",
+        rating:"2",
+        ratingNumber:"20",
+        inStock:"20",
+        category:"ten",
+        totalSale:99
+    }
 ]
 
 export default data
