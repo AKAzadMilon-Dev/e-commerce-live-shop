@@ -123,6 +123,7 @@ const Products = () => {
 
     const handleSearch = (e)=>{
         setSearchKeyword(e.target.value)
+        
     }
 
 

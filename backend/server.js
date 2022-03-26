@@ -2,7 +2,9 @@ import express from 'express';
 import data from './Data.js';
 import discount from './discount.js'
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import seedRouter from './routes/seedRoutes.js';
+import productRouter from './routes/productRouter.js'
 
 dotenv.config()
 
@@ -15,26 +17,11 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
 
 const app = express()
 
-app.get('/', function (req, res) {
-    res.send('Hello World')
-})
-
-app.get('/products', function (req, res) {
-    res.send(data)
-})
+app.use('/api/seed', seedRouter)
+app.use('/products', productRouter)
 
 app.get('/discount', function (req, res) {
     res.send(discount)
-})
-
-app.get('/products/:slug', function (req, res) {
-    
-    let product = data.find((item)=>{
-        if(req.params.slug == item.slug){
-            return item
-        }
-    })
-    res.send(product)
 })
 
 app.get('/category/:cat', function (req, res) {
