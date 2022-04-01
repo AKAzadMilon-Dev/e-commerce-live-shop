@@ -76,11 +76,46 @@ function reducer2(state,action){
 }
 // Wishlist Item End
 
+// User Signin Information Start
+const userInitialState={
+    userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+}
+
+function userreducer(state,action){
+    switch(action.type){
+        case 'USER_SIGNIN':
+            return{...state, userInfo: action.payload}
+        case 'USER_SIGNOUT':
+            return{...state, userInfo: null}
+
+                default:
+                    return state   
+    }
+}
+// User Signin Information End
+
+// Shipping Address Start
+const shippingInitialState={
+    shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {}
+}
+
+function shippingreducer(state,action){
+    switch(action.type){
+        case 'SHIPPING_ADDRESS':
+            return{...state, shippingInfo: action.payload}
+        default:
+            return state   
+    }
+}
+// Shipping Address End
+
 function StoreProvider(props){
     const [state,dispatch] = useReducer(reducer, initialState)
     const [state2,dispatch2] = useReducer(reducer2, initialState2)
+    const [state3,dispatch3] = useReducer(userreducer, userInitialState)
+    const [state4,dispatch4] = useReducer(shippingreducer, shippingInitialState)
 
-    const passValue = {state,dispatch,state2,dispatch2}
+    const passValue = {state,dispatch,state2,dispatch2,state3,dispatch3,state4,dispatch4}
     return <Store.Provider value={passValue}>{props.children}</Store.Provider>
 }
 

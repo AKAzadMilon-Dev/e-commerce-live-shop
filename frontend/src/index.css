@@ -212,3 +212,12 @@ a{
   margin-top: 100px;
 }
 
+/* Signin page */
+.formStyle{
+  background: rgb(123, 222, 252);
+  border-radius: 5px;
+}
+
+.containerStyle{
+  background: rgb(145, 202, 255);
+}

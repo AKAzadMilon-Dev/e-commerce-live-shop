@@ -6,8 +6,9 @@ import { Store } from '../Store'
 
 const CartPage = () => {
     const navigate = useNavigate();
-    const {state, dispatch} = useContext(Store)
+    const {state, dispatch, state3,} = useContext(Store)
     const {cart:{cartItems}} = state
+    const {userInfo} = state3
     
     const updateCart = (item, quantity)=>{
         console.log(quantity)
@@ -25,7 +26,11 @@ const CartPage = () => {
     }
 
     const handleCheckOut = ()=>{
-        navigate('/signin?redirect=/shipping')
+        if(userInfo){
+            navigate('/shipping')
+        }else{
+            navigate('/signin?redirect=/shipping')
+        }
     }
 
   return (
