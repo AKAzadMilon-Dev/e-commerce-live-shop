@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Button, Container, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
+import CheckoutStep from './CheckoutStep';
 
 const Shipping = () => {
 
@@ -52,6 +53,9 @@ const Shipping = () => {
         <Helmet>
             <title>Shipping</title>
         </Helmet>
+
+        <CheckoutStep step1='true' step2='true'/>
+
         <Container className='containerStyle mt-3 p-3 border'>
             <Alert className='mt-3 text-center' variant="success">
                 <h3>Shipping Address</h3>

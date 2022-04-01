@@ -218,3 +218,13 @@ a{
   border-radius: 5px;
 }
 
+.step h3{
+  text-align: center;
+  padding: 10px 0;
+}
+
+.step .stepactive{
+  background: #00a465;
+  color: #fff;
+  border-radius: 5px;
+}
