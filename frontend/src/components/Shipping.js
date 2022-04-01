@@ -41,6 +41,11 @@ const Shipping = () => {
         navigate('/payment')
     }
 
+    useEffect(()=>{
+        if(!userInfo){
+            navigate('/signin?redirect=/shipping')
+        }
+    },[])
 
   return (
     <>
