@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartPage from './components/CartPage';
 import Signin from './components/auth/Signin';
+import Signup from './components/auth/Signup';
 import { FaFirstOrder } from "react-icons/fa";
 import Wishlist from './components/Wishlist';
 import Compare from './components/Compare';
@@ -16,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Shipping from './components/Shipping';
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
 
@@ -62,7 +63,7 @@ function App() {
   // },[])
 
 
-  console.log("userr",userInfo)
+  console.log("user",userInfo)
 
 
 
@@ -205,12 +206,13 @@ function App() {
     </Offcanvas.Body>
   </Offcanvas>
   {/* Offcanvas End */}
-<Routes>
+  <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/products" element={<Products/>}/>
     <Route path="/products/:slug" element={<ProductDetails/>}/>
     <Route path="/cartpage" element={<CartPage/>}/>
     <Route path="/signin" element={<Signin/>}/>
+    <Route path="/signup" element={<Signup/>}/>
     <Route path="/wishlist" element={<Wishlist/>}/>
     <Route path="/compare" element={<Compare/>}/>
     <Route path="/shipping" element={<Shipping/>}/>

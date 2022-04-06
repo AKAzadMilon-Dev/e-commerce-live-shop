@@ -6,20 +6,16 @@ import axios from 'axios';
 import {Store} from '../../Store';
 import { toast } from 'react-toastify';
 
-const Signin = () => {
+const Signup = () => {
     const navigate = useNavigate()
-    const {search,state} = useLocation()
-    if(state){
-        toast.success(state,{
-            position: "bottom-center",
-            autoClose: 4000
-        })
-    }
+    const {search} = useLocation()
     const redirectUrl = new URLSearchParams(search).get('redirect')
     const redirect = redirectUrl ? redirectUrl : "/"
 
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [conPassword, setConPassword] = useState("")
 
     const {state3, dispatch3} = useContext(Store)
 
@@ -28,18 +24,17 @@ const Signin = () => {
     const handleSubmit = async (e)=>{
         e.preventDefault()
         try{
-            const {data} = await axios.post("/api/userSignin/signin",{
+            const {data} = await axios.post("/api/userSignin/signup",{
+                name,
                 email,
                 password
             })
-
-            dispatch3({type:"USER_SIGNIN", payload: data})
-            localStorage.setItem('userInfo', JSON.stringify(data))
-            navigate(redirect || "/")
+            console.log(data)
+            navigate("/signin",{state:"Please Sign in for continue"})
         }catch(error){
             toast.error("Invalid Email or Password",{
                 position: "bottom-center",
-                autoClose: 4000
+                autoClose: 3000
             })
         }
     }
@@ -54,7 +49,7 @@ const Signin = () => {
     <>
         <Container className='containerStyle mt-5 p-5'>
             <Helmet>
-                <title>Signin Page</title>
+                <title>Signup Page</title>
             </Helmet>
             
             <Form className='formStyle border' onSubmit={handleSubmit}>
@@ -62,27 +57,36 @@ const Signin = () => {
                     <h3>LIVE SHOP</h3>
                 </div>
                 <Alert className='mt-3 text-center' variant="success">
-                    <h3>Sign In</h3>
+                    <h3>Sign Up</h3>
                 </Alert>
                 <fieldset >
                     <Form.Group className="mb-3">
-                    <Form.Label >Your E-mail</Form.Label>
-                    <Form.Control onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="E-mail" />
+                        <Form.Label >Your Name</Form.Label>
+                        <Form.Control onChange={(e)=>setName(e.target.value)} type="text" placeholder="Name" />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label >Your E-mail</Form.Label>
+                        <Form.Control onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="E-mail" />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                    <Form.Label >Your Password</Form.Label>
-                    <Form.Control onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Password" />
+                        <Form.Label >Password</Form.Label>
+                        <Form.Control onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Password" />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label >Confirm Password</Form.Label>
+                        <Form.Control onChange={(e)=>setConPassword(e.target.value)} type="password" placeholder="Confirm Password" />
                     </Form.Group>
                 </fieldset>
-                    <Button onClick={handleSubmit} className='w-100' type="submit">Sign In</Button>
+                    <Button onClick={handleSubmit} className='w-100' type="submit">Sign Up</Button>
             </Form>
                     <Alert className='mt-3 text-center' variant="success">
-                        Don't have an account <Link to={`/signup?redirect= ${redirect}`}>Create Registration</Link>
+                        Already have an account <Link to={`/signin?redirect= ${redirect}`}>Sign In</Link>
                     </Alert>
         </Container>
     </>
   )
 }
 
-export default Signin
+export default Signup
