@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Col, Container, Form, Row, Alert, Button } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import CheckoutStep from './CheckoutStep'
+import { useNavigate, Link } from 'react-router-dom';
 
 const Payment = () => {
     let [paymentMethhod, setPaymentMethod] = useState("")
@@ -16,6 +17,7 @@ const Payment = () => {
         </Helmet>
         <CheckoutStep step1='true' step2='true' step3='true'/>
         <Container className='w-25 border mt-5 p-3'>
+            
             <Row>
                 <Col>
                     <Alert className='text-center' variant="success">
@@ -51,6 +53,11 @@ const Payment = () => {
                                 Continue
                             </Button>
                         </div>
+                        <Link to="/shipping">
+                            <div className="d-grid gap-2 mt-3">
+                                <Button type='submit' variant="success" size="md">Go To Shipping Page</Button>
+                            </div>
+                        </Link>
                     </Form>
                 </Col>
             </Row>
