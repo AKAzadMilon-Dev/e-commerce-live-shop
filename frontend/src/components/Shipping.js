@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Button, Container, Form, Alert } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutStep from './CheckoutStep';
 

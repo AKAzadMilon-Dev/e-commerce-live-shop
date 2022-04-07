@@ -109,13 +109,29 @@ function shippingreducer(state,action){
 }
 // Shipping Address End
 
+// Payment Method Start
+const paymentInitialState={
+    paymentMethod: localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : {}
+}
+
+function paymentreducer(state,action){
+    switch(action.type){
+        case 'PAYMENT_METHOD':
+            return{...state, paymentMethod: action.payload}
+        default:
+            return state   
+    }
+}
+// Payment Method End
+
 function StoreProvider(props){
     const [state,dispatch] = useReducer(reducer, initialState)
     const [state2,dispatch2] = useReducer(reducer2, initialState2)
     const [state3,dispatch3] = useReducer(userreducer, userInitialState)
     const [state4,dispatch4] = useReducer(shippingreducer, shippingInitialState)
+    const [state5,dispatch5] = useReducer(paymentreducer, paymentInitialState)
 
-    const passValue = {state,dispatch,state2,dispatch2,state3,dispatch3,state4,dispatch4}
+    const passValue = {state,dispatch,state2,dispatch2,state3,dispatch3,state4,dispatch4,state5,dispatch5}
     return <Store.Provider value={passValue}>{props.children}</Store.Provider>
 }
 
