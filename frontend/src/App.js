@@ -15,6 +15,7 @@ import Compare from './components/Compare';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Shipping from './components/Shipping';
+import Payment from './components/Payment';
 
 function App() {
   // const navigate = useNavigate();
@@ -216,6 +217,7 @@ function App() {
     <Route path="/wishlist" element={<Wishlist/>}/>
     <Route path="/compare" element={<Compare/>}/>
     <Route path="/shipping" element={<Shipping/>}/>
+    <Route path="/payment" element={<Payment/>}/>
   </Routes>
  
 </>
