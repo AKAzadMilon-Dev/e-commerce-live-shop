@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {Container, Row, Col,Card,Button,Modal,Form} from 'react-bootstrap';
+import {Container, Row, Col,Card,Button,Modal,Form, Table} from 'react-bootstrap';
 import CheckoutStep from './CheckoutStep';
 import { Store } from '../Store';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Placeorder = () => {
 
@@ -18,8 +18,8 @@ const Placeorder = () => {
   const handleShow2 = () => setShow2(true);
   // Modals end
 
-  const {state4,dispatch4,state5,dispatch5} = useContext(Store)
-  console.log(state5.paymentMethod)
+  const {state, dispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
+  console.log(state.cart.cartItems)
 
   const [fullname, setFullname] = useState(state4.shippingInfo.fullname || "")
   const [address, setAddress] = useState(state4.shippingInfo.address || "")
@@ -40,7 +40,6 @@ const Placeorder = () => {
             postcode,
             country
         }
-        
     })
     localStorage.setItem("shippingInfo", JSON.stringify({
         fullname,
@@ -57,7 +56,22 @@ const handleSubmitPayment = (e)=>{
   e.preventDefault()
   dispatch5({type:'PAYMENT_METHOD',payload:paymentMethhod})
   localStorage.setItem('paymentMethod',JSON.stringify(paymentMethhod))
-  setShow(false)
+  setShow2(false)
+}
+
+const updateCart = (item, quantity)=>{
+  console.log(quantity)
+  dispatch({
+      type: 'ADD_CART_ITEM',
+      payload: {...item, quantity}
+  })
+}
+
+const handleRemove = (item)=>{
+  dispatch({
+      type: 'CART_REMOVE_ITEM',
+      payload: item
+  })
 }
 
   return (
@@ -70,6 +84,8 @@ const handleSubmitPayment = (e)=>{
         <Row>
           <Col lg={8}>
             <h3>Preview Order</h3>
+
+            {/* Shipping Address Card Start */}
           <Card className='mt-3'>
             <Card.Body>
               <Card.Title>Shipping Address</Card.Title><hr/>
@@ -84,7 +100,9 @@ const handleSubmitPayment = (e)=>{
               <Button onClick={handleShow} className='ms-5' variant="primary">Edit Shipping</Button>
             </Card.Body>
           </Card>
+            {/* Shipping Address Card End */}
 
+          {/* Payment Method card start */}
           <Card className='mt-5'>
             <Card.Body>
               <Card.Title>Payment Method</Card.Title><hr/>
@@ -95,9 +113,70 @@ const handleSubmitPayment = (e)=>{
               <Button onClick={handleShow2} className='ms-5' variant="primary">Edit Payment</Button>
             </Card.Body>
           </Card>
+          {/* payment Method Card end */}
+
+          {/* Order Item card start */}
+          <Card className='mt-5'>
+            <Card.Body>
+              <Card.Title>Order Item</Card.Title><hr/>
+              <Card.Text>
+                <b>Total Items :</b> {state.cart.cartItems.length}<br/>
+              </Card.Text>
+
+              <Table className='cartTd' striped bordered hover variant="primary">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Product Name</th>
+                        <th>Image</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                {state.cart.cartItems.map((item)=>(
+                    <tbody >
+                        <tr>
+                            <td>1</td>
+                            <td><Link to={`/products/${item.slug}`}>{item.name}</Link></td>
+                            <td>
+                                <img width="50" src={item.img}></img>
+                            </td>
+                            <td>$ {item.price}</td>
+                            <td>
+                                <Button onClick={()=>updateCart(item, item.quantity+1)} disabled={item.quantity == item.inStock} variant="success">+</Button>
+                                    <span>{item.quantity}</span>
+                                <Button onClick={()=>updateCart(item, item.quantity-1)} disabled={item.quantity === 1} variant="success">-</Button>
+                            </td>
+                            <td>{item.inStock}</td>
+                            <td><Button onClick={()=>handleRemove(item)} variant="danger">Delete</Button></td>
+                        </tr>
+                    </tbody>
+                ))}
+              </Table>
+
+              <Link to={'/cartpage'}>Edit</Link>
+              {/* <Button onClick={handleShow2} className='ms-5' variant="primary">Edit Payment</Button> */}
+            </Card.Body>
+          </Card>
+          {/* Order Item Card end */}
+
           </Col>
           <Col lg={4}>
-            <h3>Second</h3>
+            <h3>Payment Summary</h3>
+            {/* Payment Method card start */}
+            <Card className='mt-3'>
+              <Card.Body>
+                <Card.Title>Payment Summary</Card.Title><hr/>
+                <Card.Text>
+                  <b>Payment method :</b> {state5.paymentMethod}<br/>
+                </Card.Text>
+                {/* <Link to={'/payment'}>Edit</Link> */}
+                <Button onClick={handleShow2} className='ms-5' variant="primary">Edit Payment</Button>
+              </Card.Body>
+            </Card>
+            {/* payment Method Card end */}
           </Col>
         </Row>
       </Container>
