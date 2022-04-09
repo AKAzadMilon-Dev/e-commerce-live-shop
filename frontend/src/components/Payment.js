@@ -15,7 +15,7 @@ const Payment = () => {
         e.preventDefault()
         dispatch5({type:'PAYMENT_METHOD',payload:paymentMethhod})
         localStorage.setItem('paymentMethod',JSON.stringify(paymentMethhod))
-        navigate('/placeholder')
+        navigate('/placeorder')
     }
   return (
     <>
@@ -61,7 +61,7 @@ const Payment = () => {
                         </div>
                         <Link to="/shipping">
                             <div className="d-grid gap-2 mt-3">
-                                <Button type='submit' variant="success" size="md">Go To Shipping Page</Button>
+                                <Button type='submit' variant="success" size="md">Back To Shipping Address</Button>
                             </div>
                         </Link>
                     </Form>

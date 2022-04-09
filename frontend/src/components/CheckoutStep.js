@@ -16,7 +16,7 @@ const CheckoutStep = (props) => {
                     <h3 className={props.step3? 'stepactive' : ""}>Payment</h3>
                 </Col>
                 <Col>
-                    <h3 className={props.step4? 'stepactive' : ""}>Placeholder</h3>
+                    <h3 className={props.step4? 'stepactive' : ""}>Placeorder</h3>
                 </Col>
             </Row>
         </Container>
