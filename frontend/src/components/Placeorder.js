@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {Container, Row, Col,Card,Button,Modal,Form, Table} from 'react-bootstrap';
+import {Container, Row, Col,Card,Button,Modal,Form, Table,ListGroup} from 'react-bootstrap';
 import CheckoutStep from './CheckoutStep';
 import { Store } from '../Store';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ const Placeorder = () => {
   const [city, setCity] = useState(state4.shippingInfo.city || "")
   const [postcode, setPostcode] = useState(state4.shippingInfo.postcode || "")
   const [country, setCountry] = useState(state4.shippingInfo.country || "")
+  const [total, setTotal] = useState("")
 
   let [paymentMethhod, setPaymentMethod] = useState(state5.paymentMethod?state5.paymentMethod:"")
 
@@ -74,6 +75,12 @@ const handleRemove = (item)=>{
   })
 }
 
+useEffect(()=>{
+  const total = state.cart.cartItems.reduce((accumulator, current)=>accumulator + current.price * current.quantity, 0)
+  console.log(total)
+  setTotal(total)
+},[state.cart.cartItems])
+
   return (
     <>
       <Helmet>
@@ -81,11 +88,10 @@ const handleRemove = (item)=>{
       </Helmet>
       <CheckoutStep step1='true' step2='true' step3='true' step4='true'/>
       <Container className='mt-5'>
+        <h3>Preview Order</h3>
         <Row>
           <Col lg={8}>
-            <h3>Preview Order</h3>
-
-            {/* Shipping Address Card Start */}
+          {/* Shipping Address Card Start */}
           <Card className='mt-3'>
             <Card.Body>
               <Card.Title>Shipping Address</Card.Title><hr/>
@@ -100,7 +106,7 @@ const handleRemove = (item)=>{
               <Button onClick={handleShow} className='ms-5' variant="primary">Edit Shipping</Button>
             </Card.Body>
           </Card>
-            {/* Shipping Address Card End */}
+          {/* Shipping Address Card End */}
 
           {/* Payment Method card start */}
           <Card className='mt-5'>
@@ -125,34 +131,32 @@ const handleRemove = (item)=>{
 
               <Table className='cartTd' striped bordered hover variant="primary">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Product Name</th>
-                        <th>Image</th>
-                        <th>Unit Price</th>
-                        <th>Quantity</th>
-                        <th>Stock Status</th>
-                        <th>Remove</th>
-                    </tr>
+                  <tr>
+                    <th>Product Name</th>
+                    <th>Image</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Stock Status</th>
+                    <th>Remove</th>
+                  </tr>
                 </thead>
                 {state.cart.cartItems.map((item)=>(
-                    <tbody >
-                        <tr>
-                            <td>1</td>
-                            <td><Link to={`/products/${item.slug}`}>{item.name}</Link></td>
-                            <td>
-                                <img width="50" src={item.img}></img>
-                            </td>
-                            <td>$ {item.price}</td>
-                            <td>
-                                <Button onClick={()=>updateCart(item, item.quantity+1)} disabled={item.quantity == item.inStock} variant="success">+</Button>
-                                    <span>{item.quantity}</span>
-                                <Button onClick={()=>updateCart(item, item.quantity-1)} disabled={item.quantity === 1} variant="success">-</Button>
-                            </td>
-                            <td>{item.inStock}</td>
-                            <td><Button onClick={()=>handleRemove(item)} variant="danger">Delete</Button></td>
-                        </tr>
-                    </tbody>
+                  <tbody >
+                    <tr>
+                      <td><Link to={`/products/${item.slug}`}>{item.name}</Link></td>
+                      <td>
+                          <img width="50" src={item.img}></img>
+                      </td>
+                      <td>$ {item.price}</td>
+                      <td>
+                          <Button onClick={()=>updateCart(item, item.quantity+1)} disabled={item.quantity == item.inStock} variant="success">+</Button>
+                              <span>{item.quantity}</span>
+                          <Button onClick={()=>updateCart(item, item.quantity-1)} disabled={item.quantity === 1} variant="success">-</Button>
+                      </td>
+                      <td>{item.inStock}</td>
+                      <td><Button onClick={()=>handleRemove(item)} variant="danger">Delete</Button></td>
+                    </tr>
+                  </tbody>
                 ))}
               </Table>
 
@@ -161,23 +165,26 @@ const handleRemove = (item)=>{
             </Card.Body>
           </Card>
           {/* Order Item Card end */}
-
           </Col>
+
+          {/* Payment Method card start */}
           <Col lg={4}>
-            <h3>Payment Summary</h3>
-            {/* Payment Method card start */}
             <Card className='mt-3'>
               <Card.Body>
                 <Card.Title>Payment Summary</Card.Title><hr/>
                 <Card.Text>
-                  <b>Payment method :</b> {state5.paymentMethod}<br/>
+                  <ListGroup>
+                    <ListGroup.Item><b>Product Price: </b>${total}</ListGroup.Item>
+                    <ListGroup.Item><b>Delevery Charge: </b>${total<500?0:(+30)}</ListGroup.Item>
+                    <ListGroup.Item><b>Tax: </b>${total<500?0:(total*5)/100}</ListGroup.Item>
+                    <ListGroup.Item><b>Total Price: </b>${total+(total<500?0:(+30))+(total<500?0:(total*5)/100)}</ListGroup.Item>
+                  </ListGroup>
                 </Card.Text>
-                {/* <Link to={'/payment'}>Edit</Link> */}
-                <Button onClick={handleShow2} className='ms-5' variant="primary">Edit Payment</Button>
+                <Button  variant="primary">Place Order</Button>
               </Card.Body>
             </Card>
-            {/* payment Method Card end */}
           </Col>
+          {/* payment Method Card end */}
         </Row>
       </Container>
 
