@@ -1,9 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {Container, Row, Col,Card,Button,Modal,Form, Table,ListGroup} from 'react-bootstrap';
+import {Container, Row, Col,Card,Button,Modal,Form, Table,ListGroup, Toast} from 'react-bootstrap';
 import CheckoutStep from './CheckoutStep';
 import { Store } from '../Store';
 import { Link, useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
+import axios from 'axios';
+
+
+const reducer = (state, action)=>{
+  switch(action.type){
+    case 'CREATE_REQUEST':
+      return{...state,loading:true}
+    case 'CREATE_SUCCESS':
+      return{...state,loading:false}
+    case 'CREATE_FAIL':
+      return{...state,loading:false}
+  }
+}
 
 const Placeorder = () => {
 
@@ -18,8 +32,12 @@ const Placeorder = () => {
   const handleShow2 = () => setShow2(true);
   // Modals end
 
+  const [{loading,error}, placeorder_dispatch] = useReducer(reducer,{
+    loading: false,
+    error:""
+  })
+
   const {state, dispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
-  console.log(state.cart.cartItems)
 
   const [fullname, setFullname] = useState(state4.shippingInfo.fullname || "")
   const [address, setAddress] = useState(state4.shippingInfo.address || "")
@@ -27,6 +45,9 @@ const Placeorder = () => {
   const [postcode, setPostcode] = useState(state4.shippingInfo.postcode || "")
   const [country, setCountry] = useState(state4.shippingInfo.country || "")
   const [total, setTotal] = useState("")
+
+  const {userInfo} = state3
+  console.log(userInfo)
 
   let [paymentMethhod, setPaymentMethod] = useState(state5.paymentMethod?state5.paymentMethod:"")
 
@@ -69,10 +90,34 @@ const updateCart = (item, quantity)=>{
 }
 
 const handleRemove = (item)=>{
-  dispatch({
+  placeorder_dispatch({
       type: 'CART_REMOVE_ITEM',
       payload: item
   })
+}
+
+const handlePlaceOrder = async ()=>{
+  try{
+    const {data} = await axios.post('api/orders',
+      {
+        orderItems:state.cart.cartItems,
+        shippingAdderss:state4.shippingInfo,
+        paymentMethhod:state5.paymentMethod,
+        productPrice:total,
+        taxPrice:total<500?0:(total*5)/100,
+        totalPrice:total+(total<500?0:(+30))+(total<500?0:(total*5)/100)
+
+      },
+      {
+        headers:{
+          authorization: `Bearer${userInfo.token}`
+        }
+      }
+    )
+  }catch(error){
+    dispatch({type:'CREATE_FAIL'})
+    toast.error(error)
+  }
 }
 
 useEffect(()=>{
@@ -180,7 +225,7 @@ useEffect(()=>{
                     <ListGroup.Item><b>Total Price: </b>${total+(total<500?0:(+30))+(total<500?0:(total*5)/100)}</ListGroup.Item>
                   </ListGroup>
                 </Card.Text>
-                <Button  variant="primary">Place Order</Button>
+                <Button onClick={handlePlaceOrder} variant="primary">Place Order</Button>
               </Card.Body>
             </Card>
           </Col>
