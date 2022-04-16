@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import {Container, Row, Col,Card,Button,Modal,Form, Table,ListGroup, Toast} from 'react-bootstrap';
 import CheckoutStep from './CheckoutStep';
 import { Store } from '../Store';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 import axios from 'axios';
 
@@ -21,6 +21,8 @@ const reducer = (state, action)=>{
 
 const Placeorder = () => {
 
+  const navigate = useNavigate()
+
   // Modals start
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -37,7 +39,7 @@ const Placeorder = () => {
     error:""
   })
 
-  const {state, dispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
+  const {state, dispatch,ctxdispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
 
   const [fullname, setFullname] = useState(state4.shippingInfo.fullname || "")
   const [address, setAddress] = useState(state4.shippingInfo.address || "")
@@ -101,8 +103,9 @@ const handlePlaceOrder = async ()=>{
     const {data} = await axios.post('api/orders',
       {
         orderItems:state.cart.cartItems,
-        shippingAdderss:state4.shippingInfo,
+        shippingInfo:state4.shippingInfo,
         paymentMethhod:state5.paymentMethod,
+        deleveryPrice:0,
         productPrice:total,
         taxPrice:total<500?0:(total*5)/100,
         totalPrice:total+(total<500?0:(+30))+(total<500?0:(total*5)/100)
@@ -114,6 +117,12 @@ const handlePlaceOrder = async ()=>{
         }
       }
     )
+
+    ctxdispatch({type: 'CLEAR_CART'})
+    dispatch({type:'CREATE_SUCCESS'})
+    localStorage.removeItem('cartItems')
+    navigate(`/order/${data.order._id}`)
+
   }catch(error){
     dispatch({type:'CREATE_FAIL'})
     toast.error(error)
