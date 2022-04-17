@@ -38,7 +38,7 @@ const Placeorder = () => {
     loading: false
   })
 
-  const {state, dispatch,ctxdispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
+  const {state, dispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
 
   const [fullname, setFullname] = useState(state4.shippingInfo.fullname || "")
   const [address, setAddress] = useState(state4.shippingInfo.address || "")
@@ -89,20 +89,19 @@ const updateCart = (item, quantity)=>{
 }
 
 const handleRemove = (item)=>{
-  placeorder_dispatch({
+  dispatch({
       type: 'CART_REMOVE_ITEM',
       payload: item
   })
 }
 
 const handlePlaceOrder = async ()=>{
-  console.log("ami handlePlaceOrder")
   try{
-    const {data} = await axios.post('api/orders',
+    const {data} = await axios.post('/api/orders',
       {
         orderItems:state.cart.cartItems,
         shippingInfo:state4.shippingInfo,
-        paymentMethhod:state5.paymentMethod,
+        paymentMethod:state5.paymentMethod,
         shippingPrice:0,
         productPrice:total,
         taxPrice:total<500?0:(total*5)/100,
@@ -115,9 +114,9 @@ const handlePlaceOrder = async ()=>{
         }
       }
     )
-      console.log(data)
-    ctxdispatch({type: 'CLEAR_CART'})
-    dispatch({type:'CREATE_SUCCESS'})
+
+    dispatch({type: 'CLEAR_CART'})
+    placeorder_dispatch({type:'CREATE_SUCCESS'})
     localStorage.removeItem('cartItems')
     navigate(`/orders/${data.order._id}`)
 
