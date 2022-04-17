@@ -34,9 +34,8 @@ const Placeorder = () => {
   const handleShow2 = () => setShow2(true);
   // Modals end
 
-  const [{loading,error}, placeorder_dispatch] = useReducer(reducer,{
-    loading: false,
-    error:""
+  const [{loading}, placeorder_dispatch] = useReducer(reducer,{
+    loading: false
   })
 
   const {state, dispatch,ctxdispatch,state3, state4,dispatch4,state5,dispatch5} = useContext(Store)
@@ -49,7 +48,6 @@ const Placeorder = () => {
   const [total, setTotal] = useState("")
 
   const {userInfo} = state3
-  console.log(userInfo)
 
   let [paymentMethhod, setPaymentMethod] = useState(state5.paymentMethod?state5.paymentMethod:"")
 
@@ -84,7 +82,6 @@ const handleSubmitPayment = (e)=>{
 }
 
 const updateCart = (item, quantity)=>{
-  console.log(quantity)
   dispatch({
       type: 'ADD_CART_ITEM',
       payload: {...item, quantity}
@@ -99,13 +96,14 @@ const handleRemove = (item)=>{
 }
 
 const handlePlaceOrder = async ()=>{
+  console.log("ami handlePlaceOrder")
   try{
     const {data} = await axios.post('api/orders',
       {
         orderItems:state.cart.cartItems,
         shippingInfo:state4.shippingInfo,
         paymentMethhod:state5.paymentMethod,
-        deleveryPrice:0,
+        shippingPrice:0,
         productPrice:total,
         taxPrice:total<500?0:(total*5)/100,
         totalPrice:total+(total<500?0:(+30))+(total<500?0:(total*5)/100)
@@ -113,15 +111,15 @@ const handlePlaceOrder = async ()=>{
       },
       {
         headers:{
-          authorization: `Bearer${userInfo.token}`
+          authorization: `Bearer ${userInfo.token}`
         }
       }
     )
-
+      console.log(data)
     ctxdispatch({type: 'CLEAR_CART'})
     dispatch({type:'CREATE_SUCCESS'})
     localStorage.removeItem('cartItems')
-    navigate(`/order/${data.order._id}`)
+    navigate(`/orders/${data.order._id}`)
 
   }catch(error){
     dispatch({type:'CREATE_FAIL'})
@@ -131,7 +129,6 @@ const handlePlaceOrder = async ()=>{
 
 useEffect(()=>{
   const total = state.cart.cartItems.reduce((accumulator, current)=>accumulator + current.price * current.quantity, 0)
-  console.log(total)
   setTotal(total)
 },[state.cart.cartItems])
 

@@ -7,6 +7,7 @@ import seedRouter from './routes/seedRoutes.js';
 import userRouter from './routes/userRouter.js';
 import productRouter from './routes/productRouter.js';
 import userSinginRouter from './routes/userSigninRouter.js';
+import orderRouter from './routes/orderRoutes.js';
 
 dotenv.config()
 
@@ -25,6 +26,7 @@ app.use('/api/seed', seedRouter)
 app.use('/products', productRouter)
 app.use('/api/user', userRouter)
 app.use('/api/userSignin', userSinginRouter)
+app.use('/api/orders', orderRouter)
 
 app.get('/discount', function (req, res) {
     res.send(discount)

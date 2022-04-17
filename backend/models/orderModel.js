@@ -63,32 +63,32 @@ const orderSchema = new mongoose.Schema(
             update_time:String,
             email_address:String
         },
-        itemsPrice:{
+        productPrice:{
             type:Number,
             required:true
         },
-        deleveryPrice:{
+        shippingPrice:{
             type:Number,
-            requiredtrue
+            required:true
         },
         taxPrice:{
             type:Number,
-            requiredtrue
+            required:true
         },
         totalPrice:{
             type:Number,
-            requiredtrue
+            required:true
         },
         user:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'User',
-            required:true
+            // required:true
         },
         isPaid:{
-            type:Boolean,default:false
+            type:Boolean, default:false
         },
-        deleveryTime:{
-            type:date
+        deliveredAt:{
+            type: Date
         }
     },
     {
