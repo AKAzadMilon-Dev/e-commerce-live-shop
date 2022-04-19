@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { PayPalButtons,usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import StripeCheckout from 'react-stripe-checkout';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Store } from '../Store';
@@ -119,6 +120,18 @@ const OrderPage = () => {
         }
     },[order,userInfo,orderID,navigate,paypalDispatch,successPay])
 
+    const handleToken = async (token)=>{
+        try{
+            dispatch({type: 'FATCH_REQUEST'})
+            const {data} = await axios.get(`/api/orders/${orderID}`,{
+                headers: {authorization: `Bearer ${userInfo.token}`}
+            })
+            dispatch({type: 'FATCH_SUCCESS',payload:data})
+        }catch(error){
+            dispatch({type: 'FATCH_FAIL',payload:error})
+        }
+    }
+
   return (
     loading
     ?
@@ -198,6 +211,14 @@ const OrderPage = () => {
                             <Col>
                                 {order.paymentMethod == "Paypal" && 
                                     <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                                }
+                                {order.paymentMethod == "Strip" && 
+                                    <StripeCheckout
+                                        token={handleToken}
+                                        stripeKey="pk_test_51IjoUdBknqEGRkoVGkrEndeSqPDxlxJuzMVd7EReI4Cdxd9Eatt0rSd87xjlxKpZnyW99qBRYRPu98CBs4IRqJoh00yO1xt17J"
+                                        panelLabel='payment'
+                                        amount={order.totalPrice*100}
+                                    />
                                 }
                             </Col>
                     }
