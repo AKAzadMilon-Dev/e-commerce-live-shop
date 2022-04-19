@@ -196,7 +196,9 @@ const OrderPage = () => {
                                 <h3>Loading.......</h3>
                             :
                             <Col>
-                                <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                                {order.paymentMethod == "Paypal" && 
+                                    <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                                }
                             </Col>
                     }
                     {loadingPay && <h3>Payment Loading</h3>}
