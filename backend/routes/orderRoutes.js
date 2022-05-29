@@ -19,13 +19,18 @@ orderRouter.post('/',isAuth, async (req,res)=>{
         shippingPrice: req.body.shippingPrice,
         taxPrice: req.body.taxPrice,
         totalPrice: req.body.totalPrice,
-        user: req.user._id
+        user: req.body.user
     })
     const order = await neworder.save()
     res.status(201).send({msg:"New Order Created", order})
 })
 
-orderRouter.get('/:id',isAuth, async (req,res)=>{
+orderRouter.get('/wish/:id', isAuth, async (req, res)=>{
+    const orders = await Order.find({user: req.params.id})
+    res.send(orders)
+})
+
+orderRouter.get('/:id', isAuth, async (req,res)=>{
     const order = await Order.findById(req.params.id)
     if(order){
         res.send(order)

@@ -16,6 +16,7 @@ userSinginRouter.post('/signin', async (req,res)=>{
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                isVendor: user.isVendor,
                 token: generateToken(user)
             })
             return
@@ -36,7 +37,19 @@ userSinginRouter.post('/signup', async (req,res)=>{
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        isVendor: user.isVendor,
         token: generateToken(user)
+    })
+})
+
+userSinginRouter.put('/:id', async (req,res)=>{
+    console.log(req.params.id)
+    User.findByIdAndUpdate(req.params.id,{isVendor:true},{new: true},function(err, docs){
+        if(err){
+            console.log(err)
+        }else{
+            res.send(docs)
+        }
     })
 })
 

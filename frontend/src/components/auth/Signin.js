@@ -9,12 +9,12 @@ import { toast } from 'react-toastify';
 const Signin = () => {
     const navigate = useNavigate()
     const {search,state} = useLocation()
-    if(state){
-        toast.success(state,{
-            position: "bottom-center",
-            autoClose: 4000
-        })
-    }
+    // if(state){
+    //     toast.success(state,{
+    //         position: "bottom-center",
+    //         autoClose: 4000
+    //     })
+    // }
     const redirectUrl = new URLSearchParams(search).get('redirect')
     const redirect = redirectUrl ? redirectUrl : "/"
 
@@ -33,7 +33,7 @@ const Signin = () => {
                 password
             })
 
-            dispatch3({type:"USER_SIGNIN", payload: data})
+            dispatch3({type:"USER_SIGNIN", payload:data})
             localStorage.setItem('userInfo', JSON.stringify(data))
             navigate(redirect || "/")
         }catch(error){

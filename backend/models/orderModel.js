@@ -69,7 +69,7 @@ const orderSchema = new mongoose.Schema(
         },
         shippingPrice:{
             type:Number,
-            required:true
+            // required:true
         },
         taxPrice:{
             type:Number,
@@ -82,7 +82,7 @@ const orderSchema = new mongoose.Schema(
         user:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'User',
-            // required:true
+            required:true
         },
         isPaid:{
             type:Boolean, default:false

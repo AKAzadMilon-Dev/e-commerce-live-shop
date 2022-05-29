@@ -71,7 +71,7 @@ const Wishlist = () => {
                             </Col>
                         </Row>
                     </ListGroup>
-                }
+                    }
                 </Col>
             </Row>
         </Container>

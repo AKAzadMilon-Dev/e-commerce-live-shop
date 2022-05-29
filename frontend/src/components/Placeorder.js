@@ -102,10 +102,11 @@ const handlePlaceOrder = async ()=>{
         orderItems:state.cart.cartItems,
         shippingInfo:state4.shippingInfo,
         paymentMethod:state5.paymentMethod,
-        shippingPrice:0,
         productPrice:total,
+        // shippingPrice:0,
         taxPrice:total<500?0:(total*5)/100,
-        totalPrice:total+(total<500?0:(+30))+(total<500?0:(total*5)/100)
+        totalPrice:total+(total<500?0:(+30))+(total<500?0:(total*5)/100),
+        user:userInfo._id
 
       },
       {

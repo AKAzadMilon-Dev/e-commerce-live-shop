@@ -18,6 +18,9 @@ import Shipping from './components/Shipping';
 import Payment from './components/Payment';
 import Placeorder from "./components/Placeorder";
 import OrderPage from "./components/OrderPage";
+import MyOrder from "./components/MyOrder";
+import Dashboard from "./components/Dashboard";
+import Vendor from "./components/Vendor";
 
 function App() {
   // const navigate = useNavigate();
@@ -31,6 +34,8 @@ function App() {
   const {cart:{cartItems}} = state
   const {wishList:{wishListItems}} = state2
   const {userInfo} = state3
+
+  console.log(userInfo)
     
   const updateCart = (item, quantity)=>{
       console.log(quantity)
@@ -159,9 +164,20 @@ function App() {
             {/* Sign In and Sign Out Start */}
             {userInfo ? 
             <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              {userInfo.isVendor
+              ?
+              <NavDropdown.Item href="#action/3.1">
+                <Link className='item' to="/dashboard">Dashboard</Link>
+              </NavDropdown.Item>
+              :
+              <NavDropdown.Item href="#action/3.1">
+                <Link className='item' to="/vendor">Become A Vendor</Link>
+              </NavDropdown.Item>
+              }
+              
+              
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">My Orders</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4" onClick={handleSignout}>Sign Out</NavDropdown.Item>
             </NavDropdown>
@@ -222,8 +238,10 @@ function App() {
     <Route path="/payment" element={<Payment/>}/>
     <Route path="/placeorder" element={<Placeorder/>}/>
     <Route path="/orders/:id" element={<OrderPage/>}/>
+    <Route path="/myorders" element={<MyOrder/>}/>
+    <Route path="/dashboard" element={<Dashboard/>}/>
+    <Route path="/vendor" element={<Vendor/>}/>
   </Routes>
- 
 </>
 }
 

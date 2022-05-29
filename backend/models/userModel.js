@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
         required: true,
         default:false
     },
+    isVendor:{
+        type: Boolean,
+        default:false
+    },
 })
 
 const User = mongoose.model("User",UserSchema)
