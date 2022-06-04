@@ -152,7 +152,7 @@ const Products = () => {
                                         <h5>$ {item.price}</h5>
                                     </Card.Text>
                                     <Rating rating={item.rating} ratingNumber={item.ratingNumber}/>
-                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Text dangerouslySetInnerHTML={{__html: item.description}}></Card.Text>
                                 </Card.Body>
                                 <Card.Body>
                                     {cartItems.map(items=>(

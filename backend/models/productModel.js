@@ -14,47 +14,53 @@ const productSchema = new mongoose.Schema(
         },
         img: {
             type: String,
-            required: true
+            // required: true
         },
         brand: {
             type: String,
-            required: true
+            // required: true
         },
         description: {
             type: String,
-            required: true
+            // required: true
         },
         price: {
             type: Number,
             required:true
         },
         rating: {
-            type:String,
-            required:true
+            type:String
         },
         ratingNumber: {
-            type:Number,
-            required:true
+            type:Number
         },
         inStock: {
             type:Number,
-            required:true
+            // required:true
         },
         category: {
             type:String,
             required:true
         },
         cupon: {
-            type:String
+            type:Number
         },
         discount: {
-            type:Number
+            type:String
         },
         discountLimit: {
             type:Number
         },
         totalSale: {
             type:Number
+        },
+        storeName:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'storeName'
+        },
+        owner:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         }
     },
     {

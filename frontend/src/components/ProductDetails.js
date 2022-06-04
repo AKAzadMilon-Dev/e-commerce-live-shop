@@ -159,7 +159,7 @@ const handleAddToCart = async ()=>{
                 <ListGroup.Item className='productDetails'>
                   <Rating rating={product.rating} ratingNumber={product.ratingNumber}/>
                   <h5>Price = $ {product.price}</h5>
-                  <h6>{product.description}</h6>
+                  <h6 dangerouslySetInnerHTML={{__html: product.description}}></h6>
                 </ListGroup.Item>
               </ListGroup>
             </Card>
