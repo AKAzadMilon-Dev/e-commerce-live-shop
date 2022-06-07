@@ -54,4 +54,11 @@ productRouter.get('/storename/:id', async (req, res)=>{
     res.send(data)
 })
 
+productRouter.get('/productList/:id', async(req,res)=>{
+    console.log(req.params.id)
+    const data = await Product.find({owner: req.params.id})
+    console.log(data)
+    res.send(data)
+})
+
 export default productRouter

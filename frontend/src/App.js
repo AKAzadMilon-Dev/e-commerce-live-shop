@@ -21,6 +21,7 @@ import OrderPage from "./components/OrderPage";
 import MyOrder from "./components/MyOrder";
 import Dashboard from "./components/Dashboard";
 import Vendor from "./components/Vendor";
+import VertualCard from "./components/VertualCard";
 
 function App() {
   // const navigate = useNavigate();
@@ -174,8 +175,9 @@ function App() {
                 <Link className='item' to="/vendor">Become A Vendor</Link>
               </NavDropdown.Item>
               }
-              
-              
+              <NavDropdown.Item href="#action/3.2">
+                <Link className='item' to="/vertualcard">Get A Vertual Card</Link>
+              </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">My Orders</NavDropdown.Item>
               <NavDropdown.Divider />
@@ -241,6 +243,7 @@ function App() {
     <Route path="/myorders" element={<MyOrder/>}/>
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/vendor" element={<Vendor/>}/>
+    <Route path="/vertualcard" element={<VertualCard/>}/>
   </Routes>
 </>
 }

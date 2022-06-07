@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Col, Row, Nav, Form, Button } from 'react-bootstrap';
+import { Col, Row, Nav, Form, Button, Table } from 'react-bootstrap';
 import {Store} from '../Store';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { Editor } from 'react-draft-wysiwyg';
 import EditorConvertToHTML from './Editor'
 
 const Dashboard = () => {
@@ -24,6 +23,8 @@ const Dashboard = () => {
   const [discountLimit, setDiscountLimit] = useState('')
   const [img, setImg] = useState('')
   const [description, setDescription] = useState('')
+  const [proList, setProList] = useState(false)
+  const [myprolist, setMyProList] = useState([])
 
   const handleSubmit = async (e)=>{
     e.preventDefault()
@@ -36,11 +37,19 @@ const Dashboard = () => {
   const handleStorename = ()=>{
     setStoreName(true)
     setProduct(false)
+    setProList(false)
   }
 
   const handleProduct = ()=>{
     setStoreName(false)
+    setProList(false)
     setProduct(true)
+  }
+
+  const handleSProList = ()=>{
+    setStoreName(false)
+    setProduct(false)
+    setProList(true)
   }
 
   const handleProductSubmit = async (e)=>{
@@ -70,9 +79,14 @@ const Dashboard = () => {
     StoreName()
   },[])
 
-  const onEditorStateChange = ()=>{
+  useEffect(()=>{
+    async function productList(){
+      const {data} = await axios.get(`/products/productList/${state3.userInfo._id}`)
+      setMyProList(data)
+    }
+    productList()
+  },[])
 
-  }
 
   return (
     <div>
@@ -81,6 +95,7 @@ const Dashboard = () => {
           <Nav className="flex-column">
             <Nav.Link onClick={handleProduct}>Create Product</Nav.Link>
             <Nav.Link onClick={handleStorename}>Create Store Name</Nav.Link>
+            <Nav.Link onClick={handleSProList}>Product List</Nav.Link>
             <Nav.Link>Payment</Nav.Link>
           </Nav>
         </Col>
@@ -166,6 +181,35 @@ const Dashboard = () => {
             </Form.Group>
             <Button type="submit" onClick={handleProductSubmit}>Submit form</Button>
           </Form>
+          }
+
+          {proList &&
+           <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Serial No</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {myprolist.map((item,index)=>(
+                <tr>
+                  <td>{index+1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>{item.discount? item.discount : "no discount"}</td>
+                  <td>
+                    <Button variant="info">Edit</Button>{' '}
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+              ))}
+              
+            </tbody>
+          </Table>
           }
         </Col>
       </Row>

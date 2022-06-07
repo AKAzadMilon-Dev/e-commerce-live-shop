@@ -1,7 +1,8 @@
 import express from 'express';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
+import vertualCard from '../models/vertualCardModel.js';
 
 const userSinginRouter = express.Router()
 
@@ -51,6 +52,18 @@ userSinginRouter.put('/:id', async (req,res)=>{
             res.send(docs)
         }
     })
+})
+
+userSinginRouter.post('/vertualcard',(req, res)=>{
+    console.log(req.body)
+    let vertualCardInfo = {
+        amount: req.body.amount,
+        owner: req.body.owner
+    }
+
+    const vertualcard = new vertualCard(vertualCardInfo)
+    vertualcard.save()
+    res.send('done')
 })
 
 export default userSinginRouter

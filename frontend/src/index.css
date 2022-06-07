@@ -230,17 +230,14 @@ a{
 }
 
 .flex-column{
-  background: #313131;
   height: 100%;
 }
 
 .flex-column :hover{
- background: rgb(163, 159, 159);
- color: #000000;
+ background: #707070;
+ color: #ffffff;
 }
 
 .rdw-editor-main {
   border: 1px solid #F1F1F1;
-  margin: 20px 0;
-  /* height: 300px; */
 }
