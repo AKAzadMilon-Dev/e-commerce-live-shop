@@ -4,7 +4,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Store } from '../Store';
-import {Alert, Container,Card, Row, Col, ListGroup} from 'react-bootstrap';
+import {Alert, Container,Card, Row, Col, ListGroup, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 function reducer(state,action){
@@ -132,6 +132,15 @@ const OrderPage = () => {
         }
     }
 
+    let handleVirtualCard = async ()=>{
+        let {data} = await axios.post('/api/userSignin/virtualcardpayment',{
+            owner: userInfo._id,
+            price: order.totalPrice
+        })
+
+        console.log(data)
+    }
+
   return (
     loading
     ?
@@ -144,7 +153,7 @@ const OrderPage = () => {
     </Alert>
     :
     <Container>
-        <h1>order {orderID}</h1>
+        {/* <h1>order {orderID}</h1> */}
         <Row>
             <Col lg={8}>
                 <Card >
@@ -220,6 +229,10 @@ const OrderPage = () => {
                                         amount={order.totalPrice*100}
                                     />
                                 }
+                                {/* Use Virtual Card */}
+                                <div className="d-grid gap-2">
+                                    <Button onClick={handleVirtualCard} variant="warning" size="lg">Use Virtual Card</Button>
+                                </div>
                             </Col>
                     }
                     {loadingPay && <h3>Payment Loading</h3>}

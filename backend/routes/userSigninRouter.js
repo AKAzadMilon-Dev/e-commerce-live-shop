@@ -2,7 +2,7 @@ import express from 'express';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
 import bcrypt from 'bcryptjs';
-import vertualCard from '../models/vertualCardModel.js';
+import virtualCard from '../models/vertualCardModel.js';
 
 const userSinginRouter = express.Router()
 
@@ -54,16 +54,35 @@ userSinginRouter.put('/:id', async (req,res)=>{
     })
 })
 
-userSinginRouter.post('/vertualcard',(req, res)=>{
+userSinginRouter.post('/virtualcard',(req, res)=>{
     console.log(req.body)
-    let vertualCardInfo = {
+    let virtualCardInfo = {
         amount: req.body.amount,
         owner: req.body.owner
     }
 
-    const vertualcard = new vertualCard(vertualCardInfo)
-    vertualcard.save()
+    const virtualcard = new virtualCard(virtualCardInfo)
+    virtualcard.save()
     res.send('done')
+})
+
+userSinginRouter.post('/virtualcardpayment', async (req, res)=>{
+    console.log(req.body)
+    let data = await virtualCard.find({owner: req.body.owner})
+    console.log(data[0].amount)
+    if(data[0].amount < req.body.price){
+        console.log('Amount is not sufficient to the product price')
+    }else{
+        console.log('data.amount - req.body.price')
+        console.log(data[0].amount - req.body.price)
+        virtualCard.findByIdAndUpdate(data[0]._id, {amount:data[0].amount - req.body.price}, {new:true}, function(err, docs){
+            if(err){
+                console.log(err)
+            }else{
+                console.log(docs)
+            }
+        })
+    }
 })
 
 export default userSinginRouter
