@@ -23,7 +23,7 @@ a{
 }
 
 .menu .dropdown-menu a{
-  color: rgb(0, 0, 0) !important;
+  color: #000000 !important;
   margin-left: 0;
 }
 
@@ -240,4 +240,14 @@ a{
 
 .rdw-editor-main {
   border: 1px solid #F1F1F1;
+}
+
+.adminPannel{
+  background: rgb(33,37,41);
+  color: #F1F1F1;
+  text-align: center;
+}
+
+.welcome{
+  text-align: center;
 }

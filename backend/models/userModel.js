@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
+    isAffiliate:{
+        type: Boolean,
+        default:false
+    },
 })
 
 const User = mongoose.model("User",UserSchema)

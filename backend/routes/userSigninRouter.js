@@ -18,6 +18,7 @@ userSinginRouter.post('/signin', async (req,res)=>{
                 email: user.email,
                 isAdmin: user.isAdmin,
                 isVendor: user.isVendor,
+                isAffiliate: user.isAffiliate,
                 token: generateToken(user)
             })
             return
@@ -39,6 +40,7 @@ userSinginRouter.post('/signup', async (req,res)=>{
         email: user.email,
         isAdmin: user.isAdmin,
         isVendor: user.isVendor,
+        isAffiliate: user.isAffiliate,
         token: generateToken(user)
     })
 })
@@ -83,6 +85,17 @@ userSinginRouter.post('/virtualcardpayment', async (req, res)=>{
             }
         })
     }
+})
+
+userSinginRouter.put('/affiliate/:id', async (req,res)=>{
+    console.log(req.params)
+    User.findByIdAndUpdate(req.params.id,{isAffiliate:true},{new: true},function(err, docs){
+        if(err){
+            console.log(err)
+        }else{
+            res.send(docs)
+        }
+    })
 })
 
 export default userSinginRouter

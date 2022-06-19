@@ -22,6 +22,9 @@ import MyOrder from "./components/MyOrder";
 import Dashboard from "./components/Dashboard";
 import Vendor from "./components/Vendor";
 import VertualCard from "./components/VertualCard";
+import Affiliate from "./components/Affiliate";
+import Affiliatelink from "./components/Affiliatelink";
+import AdminDashboard from "./components/admin/AdminDashboard";
 
 function App() {
   // const navigate = useNavigate();
@@ -66,21 +69,14 @@ function App() {
   }
   
   // useEffect(()=>{
-  //   if(userInfo){
+  //   if(userInfo.isAdmin){
+
   //     navigate('/')
   //   }
   // },[])
 
-
-  console.log("user",userInfo)
-
-
-
   return  <>
-
-
-
-<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <Container>
       {/* React-Toastify Start */}
       <ToastContainer 
@@ -175,11 +171,30 @@ function App() {
                 <Link className='item' to="/vendor">Become A Vendor</Link>
               </NavDropdown.Item>
               }
+
               <NavDropdown.Item href="#action/3.2">
                 <Link className='item' to="/vertualcard">Get A Vertual Card</Link>
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+
+              {userInfo.isAffiliate
+              ?
+              <NavDropdown.Item href="#action/3.2">
+                <Link className='item' to="/affiliatelink">Affiliate Link</Link>
+              </NavDropdown.Item>
+              :
+              <NavDropdown.Item href="#action/3.2">
+                <Link className='item' to="/affiliate">Become A Affiliate</Link>
+              </NavDropdown.Item>
+              }
+
               <NavDropdown.Item href="#action/3.3">My Orders</NavDropdown.Item>
+
+              {userInfo.isAdmin &&
+              <NavDropdown.Item href="#action/3.2">
+                <Link className='item' to="/admin">Admin Dashboard</Link>
+              </NavDropdown.Item>
+              }
+              
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4" onClick={handleSignout}>Sign Out</NavDropdown.Item>
             </NavDropdown>
@@ -244,6 +259,9 @@ function App() {
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/vendor" element={<Vendor/>}/>
     <Route path="/vertualcard" element={<VertualCard/>}/>
+    <Route path="/affiliate" element={<Affiliate/>}/>
+    <Route path="/affiliatelink" element={<Affiliatelink/>}/>
+    <Route path="/admin" element={<AdminDashboard/>}/>
   </Routes>
 </>
 }

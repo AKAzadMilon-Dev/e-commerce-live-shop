@@ -1,6 +1,8 @@
 import express from 'express';
 import Product from '../models/productModel.js';
 import StoreName from '../models/storeModel.js';
+import User from '../models/userModel.js';
+import Affiliate from '../models/isAffiliateModel.js';
 
 const productRouter = express.Router()
 
@@ -29,11 +31,32 @@ productRouter.post('/', async(req, res)=>{
 })
 
 productRouter.get('/:slug', async (req, res)=> {
-    let product = await Product.findOne({slug:req.params.slug})
-    if(product){
-        res.send(product)
+    if(req.query.id){
+        let user = await User.findById(req.query.id)
+        console.log(user)
+        if(user.isAffiliate){
+            let product = await Product.findOne({slug:req.params.slug})
+
+            if(product){
+                res.send(product)
+                let affiliateInfo = {
+                    amount: (product.price*10)/100,
+                    owner: req.query.id
+                }
+                const affiliate = new Affiliate(affiliateInfo)
+                affiliate.save()
+            }else{
+                res.status(404).send({msg:'Product Not Found'})
+            }
+    }
+    
     }else{
-        res.status(404).send({msg:'Product Not Found'})
+        let product = await Product.findOne({slug:req.params.slug})
+        if(product){
+            res.send(product)
+        }else{
+            res.status(404).send({msg:'Product Not Found'})
+        }
     }
 })
 

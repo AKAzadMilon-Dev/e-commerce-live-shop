@@ -7,7 +7,7 @@ import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 import InnerImageZoom from 'react-inner-image-zoom';
 import { Helmet } from 'react-helmet-async';
 import {Store} from '../Store'
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useSearchParams } from "react-router-dom";
 import Slider from "react-slick";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -37,6 +37,7 @@ function reducer(state, action) {
 }
 
 const ProductDetails = () => {
+  let {state3} = useContext(Store)
 
   // React-Slick-Slider
   var settings = {
@@ -50,9 +51,11 @@ const ProductDetails = () => {
     nextArrow: <FaArrowRight/>
   };
   // React-Slick-Slider
-
   let navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  console.log( searchParams.get('sort'))
   let params = useParams();
+
   let [relatedProduct, setRelatedProduct] = useState([])
   let [cuponText, setCupontext] = useState("")
   let [errorCupon, setErrorCupon] = useState("")
@@ -65,23 +68,22 @@ const ProductDetails = () => {
   });
 
   useEffect( async ()=>{
-    dispatch({
-        type:'FECTH_REQUEST'
-    })
+    let affiName;
+    if(state3.userInfo){
+      if(state3.userInfo.isAffiliate){
+        affiName = state3.userInfo._id
+    }
+    }
+    
+    dispatch({type:'FECTH_REQUEST'})
     try{
-        const product = await axios.get(`/products/${params.slug}`)
-        dispatch({
-            type:'FETCH_SUCCESS',
-            payload:product.data
-        })
+        const product = await axios.get(`/products/${params.slug}?id=${affiName}`)
+        dispatch({type:'FETCH_SUCCESS',payload:product.data})
         const relatedProduct = await axios.get("/products")
         const filterItem = relatedProduct.data.filter((item)=>item.category == product.data.category && item.name !== product.data.name)
         setRelatedProduct(filterItem)
     }catch{
-        dispatch({
-            type:'FETCH_FAILS',
-            payload:error.message
-        })
+        dispatch({type:'FETCH_FAILS',payload:error.message})
     }
 },[params.slug])
 
@@ -193,6 +195,31 @@ const handleAddToCart = async ()=>{
             </p>
           </Alert>
         }
+        </Row>
+        <Row className='mt-3'>
+          <Col lg={4}>
+            <h4 className='mb-3'>Customer Review</h4>
+            <Form>
+              <Form.Select aria-label="rate this product">
+                <option>Rate this product</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Star</option>
+                <option value="3">3 Star</option>
+                <option value="4">4 Star</option>
+                <option value="5">5 Star</option>
+              </Form.Select>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Label>Comment This Product</Form.Label>
+                <Form.Control as="textarea" rows={3} placeholder='Comment' />
+              </Form.Group>
+              <div className="d-grid gap-2">
+                <Button variant="primary" size="md">Submit</Button>
+              </div>
+            </Form>
+          </Col>
+          <Col lg={8}>
+
+          </Col>
         </Row>
         <Row>
           <h2 className='mt-5'>Related Product</h2>

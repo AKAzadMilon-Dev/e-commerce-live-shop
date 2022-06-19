@@ -73,7 +73,7 @@ const Products = () => {
         setDetails(productDetails.data)
     }
 
-    const {state, dispatch: contextDispatch, state2, dispatch2} = useContext(Store)
+    const {state, dispatch: contextDispatch, dispatch2, state3} = useContext(Store)
 
     const {cart, wishList} = state
 
@@ -146,7 +146,12 @@ const Products = () => {
                                 <Card.Img variant="top" src={item.img} />
                                 <Card.Body>
                                     <Card.Title>
+                                        {state3.userInfo
+                                        ?
+                                        <Link to={ state3.userInfo.isAffiliate?`/products/${item.slug}?id:${state3.userInfo._id}`:`/products/${item.slug}`}>{item.name} {item.totalSale > 50 ?<Badge bg="warning">Best Sale</Badge>:""}</Link>
+                                        :
                                         <Link to={`/products/${item.slug}`}>{item.name} {item.totalSale > 50 ?<Badge bg="warning">Best Sale</Badge>:""}</Link>
+                                        }
                                     </Card.Title>
                                     <Card.Text>
                                         <h5>$ {item.price}</h5>
