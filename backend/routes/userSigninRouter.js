@@ -3,8 +3,16 @@ import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
 import bcrypt from 'bcryptjs';
 import virtualCard from '../models/vertualCardModel.js';
+import UserRole from '../models/userRoleModel.js';
+import AdminRole from '../models/adminRoleModel.js';
 
 const userSinginRouter = express.Router()
+
+userSinginRouter.get('/userlist', async (req, res)=>{
+    const user = await User.find({})
+    console.log(user)
+    res.send(user)
+})
 
 userSinginRouter.post('/signin', async (req,res)=>{
     const user = await User.findOne({email:req.body.email})
@@ -96,6 +104,47 @@ userSinginRouter.put('/affiliate/:id', async (req,res)=>{
             res.send(docs)
         }
     })
+})
+
+userSinginRouter.post('/userrole',(req,res)=>{
+    console.log(req.body)
+    let userRoleInfo = {
+        name: req.body.name,
+        permissions: req.body.permissions
+    }
+    const userRole = new UserRole(userRoleInfo)
+    userRole.save()
+    res.send(userRole)
+})
+
+userSinginRouter.get('/userrole', async (req, res)=>{
+ let data = await UserRole.find({})
+ res.send(data)
+})
+
+userSinginRouter.post('/adminrole',(req,res)=>{
+    console.log(req.body)
+    let adminRoleInfo = {
+        email: req.body.email,
+        password: req.body.password,
+        adminrole: req.body.adminrole
+    }
+    const adminRole = new AdminRole(adminRoleInfo)
+    adminRole.save()
+    res.send(adminRole)
+})
+
+userSinginRouter.post('/adminsignin', async (req, res)=>{
+    let user = await AdminRole.find({email: req.body.email})
+    if(user){
+        if(user[0].password == req.body.password){
+            res.send(user)
+        }else{
+            res.send({msg:"password not match"})
+        }
+    }else{
+        res.send({mes:"user not found"})
+    }
 })
 
 export default userSinginRouter

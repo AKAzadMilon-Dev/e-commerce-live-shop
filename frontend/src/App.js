@@ -25,6 +25,9 @@ import VertualCard from "./components/VertualCard";
 import Affiliate from "./components/Affiliate";
 import Affiliatelink from "./components/Affiliatelink";
 import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminUserList from "./components/admin/AdminUserList";
+import AdminRoleManagement from "./components/admin/AdminRoleManagement";
+import AdminSignin from "./components/admin/AdminSignin";
 
 function App() {
   // const navigate = useNavigate();
@@ -262,6 +265,9 @@ function App() {
     <Route path="/affiliate" element={<Affiliate/>}/>
     <Route path="/affiliatelink" element={<Affiliatelink/>}/>
     <Route path="/admin" element={<AdminDashboard/>}/>
+    <Route path="/adminuserlist" element={<AdminUserList/>}/>
+    <Route path="/adminrolemanagement" element={<AdminRoleManagement/>}/>
+    <Route path="/adminsignin" element={<AdminSignin/>}/>
   </Routes>
 </>
 }
